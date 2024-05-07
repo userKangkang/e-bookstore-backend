@@ -51,8 +51,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Cart insertCart(Cart cart) {
-        return cartRepository.save(cart);
+    public Cart insertCart(Cart cart, Integer uid) {
+        if(cartRepository.findCartByBook_idAndUid(cart.getBook_id(), uid) == null) {
+            return cartRepository.save(cart);
+        }
+        return null;
     }
 
     @Override

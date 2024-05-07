@@ -70,4 +70,16 @@ public class ManagerDaoImpl implements ManagerDao {
     public List<OrderUser> getAllOrders(){
         return orderUserRepository.findAll();
     }
+
+
+    @Override
+    public List<OrderUser> getOrdersByTime(String startTime, String endTime)
+    {
+        return orderUserRepository.getOrderUserByTime(startTime, endTime);
+    }
+
+    @Override
+    public List<OrderUser> getOrderByBookName(String name) {
+        return orderUserRepository.getOrderUserByBookName(name);
+    }
 }

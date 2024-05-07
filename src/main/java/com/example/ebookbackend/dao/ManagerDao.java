@@ -24,4 +24,8 @@ public interface ManagerDao {
     void deleteBook(Integer id);
 
     List<OrderUser> getAllOrders();
+
+    List<OrderUser> getOrdersByTime(String startTime, String endTime);
+
+    List<OrderUser> getOrderByBookName(String name);
 }

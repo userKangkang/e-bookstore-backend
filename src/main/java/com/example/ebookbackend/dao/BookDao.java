@@ -13,7 +13,7 @@ public interface BookDao {
 
     Integer insertOrder(OrderReceiver orderReceiver);
 
-    Cart insertCart(Cart cart);
+    Cart insertCart(Cart cart, Integer uid);
 
     Integer getStockById(Integer id);
 }

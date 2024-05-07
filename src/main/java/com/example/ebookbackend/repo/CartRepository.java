@@ -15,4 +15,6 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     @Transactional
     @Query(value = "update Cart c set c.number = :number where c.id = :cid")
     void updateNumberById(int number ,int cid);
+
+    Cart findCartByBook_idAndUid(Integer book_id, Integer uid);
 }

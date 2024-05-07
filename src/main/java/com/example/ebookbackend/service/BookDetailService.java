@@ -15,6 +15,6 @@ public interface BookDetailService {
 
     Integer insertOrder(OrderReceiver orderReceiver);
 
-    Cart insertCart(Cart cart);
+    Cart insertCart(Cart cart, Integer uid);
 
 }

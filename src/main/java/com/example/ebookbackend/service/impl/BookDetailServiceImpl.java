@@ -52,7 +52,7 @@ public class BookDetailServiceImpl implements BookDetailService {
     }
 
     @Override
-    public Cart insertCart(Cart cart) {
-        return bookDetailDao.insertCart(cart);
+    public Cart insertCart(Cart cart, Integer uid) {
+        return bookDetailDao.insertCart(cart, uid);
     }
 }

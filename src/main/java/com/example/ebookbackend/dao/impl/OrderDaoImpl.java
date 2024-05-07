@@ -31,5 +31,14 @@ public class OrderDaoImpl implements OrderDao {
         return user.getOrderUser();
     }
 
+    @Override
+    public List<OrderUser> getUserOrdersByTime(Integer uid, String startTime, String endTime)
+    {
+        return orderUserRepository.getUserOrdersByTime(uid, startTime, endTime);
+    }
 
+    @Override
+    public List<OrderUser> getUserOrdersByBookName(String name, Integer uid) {
+        return orderUserRepository.getUserOrdersByBookName(name, uid);
+    }
 }

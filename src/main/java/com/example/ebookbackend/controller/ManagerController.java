@@ -2,6 +2,7 @@ package com.example.ebookbackend.controller;
 
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.Result;
+import com.example.ebookbackend.repo.OrderUserRepository;
 import com.example.ebookbackend.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class ManagerController {
 
     @Autowired
     ManagerService managerService;
+
 
     @RequestMapping("/manager/book/get")
     public Result getAllBooks() {
@@ -62,5 +64,23 @@ public class ManagerController {
     @RequestMapping("/manager/order/all")
     public Result getAllOrders() {
         return Result.success(managerService.getAllOrders());
+    }
+
+    @RequestMapping("/manager/order/time/{startTime}/{endTime}")
+    public Result getOrdersByTime(@PathVariable(name = "startTime") String startTime,
+                                  @PathVariable(name = "endTime") String endTime) {
+        return Result.success(managerService.getOrdersByTime(startTime, endTime));
+    }
+
+    @RequestMapping("/manager/order/name/{bookname}")
+    public Result getOrdersByBookName(@PathVariable String bookname)
+    {
+        return Result.success(managerService.getOrderByBookName(bookname));
+    }
+
+    @RequestMapping("/manager/rank/book/{startTime}/{endTime}")
+    public Result getBookRank(@PathVariable(name = "startTime") String startTime,
+                              @PathVariable(name = "endTime") String endTime) {
+        return Result.success(managerService.getBookRank(startTime, endTime));
     }
 }

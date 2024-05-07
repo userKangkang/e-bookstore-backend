@@ -34,8 +34,13 @@ public class BookDetailController {
         }
     }
 
-    @RequestMapping("/cart/add")
-    public Result insertCart(@RequestBody Cart cart) {
-        return Result.success(bdService.insertCart(cart));
+    @RequestMapping("/cart/add/{uid}")
+    public Result insertCart(@PathVariable(name = "uid") Integer uid, @RequestBody Cart cart) {
+        Cart res = bdService.insertCart(cart, uid);
+        if(res == null) {
+            return Result.failure("购物车内已存在此书", false);
+        } else {
+            return Result.success(res);
+        }
     }
 }
