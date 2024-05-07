@@ -35,6 +35,8 @@ public class User {
     private String signature;
     @Column(name = "state")
     private int state;
+    @Column(name = "identity")
+    private int identity;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderUser> orderUser;

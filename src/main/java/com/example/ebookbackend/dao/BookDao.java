@@ -14,4 +14,6 @@ public interface BookDao {
     Integer insertOrder(OrderReceiver orderReceiver);
 
     Cart insertCart(Cart cart);
+
+    Integer getStockById(Integer id);
 }

@@ -35,5 +35,8 @@ public class UserDaoImpl implements UserDao {
         return userRepository.findByUsername(username);
     }
 
-
+    @Override
+    public Integer getBalanceById(Integer id) {
+        return userRepository.getBalanceById(id);
+    }
 }

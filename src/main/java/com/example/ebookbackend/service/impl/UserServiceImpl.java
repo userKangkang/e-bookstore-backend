@@ -25,11 +25,15 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     @Override
     public Result verifyByUsername(String username, String password) {
-        String output = userDao.getPasswordByUsername(username);
+        User user = getUserByUsername(username);
+        String output = user.getPassword();
+        int state = user.getState();
         if(output == null) {
             return Result.failure("no such user", false);
         } else if(!password.equals(output)) {
             return Result.failure("password error", false);
+        } else if(state == 0) {
+            return Result.failure("account banned", false);
         } else {
             return Result.success(true);
         }
@@ -37,6 +41,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result insertNewUser(User user) {
+        User old_user = userDao.getUserByUsername(user.getUsername());
+        if(old_user != null) {
+            return Result.failure("username already exists!", false);
+        }
         User tmp_user = userDao.insertNewUser(user);
         if(tmp_user.getId() == 0) {
             return Result.failure("signup failure.", null);

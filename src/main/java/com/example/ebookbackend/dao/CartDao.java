@@ -10,4 +10,8 @@ public interface CartDao {
     void removeCart(int cid);
 
     void removeAllCart(int uid);
+
+    void updateSingleCartNumber(Cart cart);
+
+    void updateAllCartNumber(List<Cart> carts);
 }

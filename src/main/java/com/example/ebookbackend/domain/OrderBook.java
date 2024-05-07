@@ -34,7 +34,7 @@ public class OrderBook {
     private OrderUser orderUser;
 
     @ManyToOne
-    @JsonIgnoreProperties({"id", "stock","detail", "author"})
+    @JsonIgnoreProperties({"id", "detail", "author"})
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private BookDetail book;
 

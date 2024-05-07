@@ -10,4 +10,6 @@ public interface UserDao {
     public Integer updateProfile(User user);
 
     public User getUserByUsername(String username);
+
+    public Integer getBalanceById(Integer id);
 }

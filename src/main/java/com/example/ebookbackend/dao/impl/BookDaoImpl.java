@@ -6,10 +6,7 @@ import com.example.ebookbackend.domain.Cart;
 import com.example.ebookbackend.domain.OrderBook;
 import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.receiver.OrderReceiver;
-import com.example.ebookbackend.repo.BookDetailRepository;
-import com.example.ebookbackend.repo.CartRepository;
-import com.example.ebookbackend.repo.OrderBookRepository;
-import com.example.ebookbackend.repo.OrderUserRepository;
+import com.example.ebookbackend.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +25,9 @@ public class BookDaoImpl implements BookDao {
     @Autowired
     CartRepository cartRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public BookDetail getBookById(Integer id) {
         return bookDetailRepository.getById(id);
@@ -35,11 +35,15 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Integer insertOrder(OrderReceiver orderReceiver) {
+        for(OrderBook order : orderReceiver.getOrderBooks()) {
+            bookDetailRepository.reduceBookStock(order.getNumber(), order.getBook_id());
+        }
         OrderUser orderUser = new OrderUser();
         orderUser.setUid(orderReceiver.getUid());
         orderUser.setTime(orderReceiver.getTime());
         orderUser.setAddress(orderReceiver.getAddress());
         orderUser.setMoney(orderReceiver.getMoney());
+        userRepository.reduceBalance(orderUser.getMoney(), orderUser.getUid());
         int oid = orderUserRepository.save(orderUser).getOrderId();
         orderReceiver.setOrderBooksOid(oid);
         orderBookRepository.saveAll(orderReceiver.getOrderBooks());
@@ -49,5 +53,10 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Cart insertCart(Cart cart) {
         return cartRepository.save(cart);
+    }
+
+    @Override
+    public Integer getStockById(Integer id) {
+        return bookDetailRepository.findStockById(id);
     }
 }

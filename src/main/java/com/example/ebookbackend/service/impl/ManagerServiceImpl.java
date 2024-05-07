@@ -2,6 +2,7 @@ package com.example.ebookbackend.service.impl;
 
 import com.example.ebookbackend.dao.ManagerDao;
 import com.example.ebookbackend.domain.BookDetail;
+import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
 import com.example.ebookbackend.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,25 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void disableUser(Integer id) {
         managerDao.disableUser(id);
+    }
+
+    @Override
+    public void enableUser(Integer id) {
+        managerDao.enableUser(id);
+    }
+
+    @Override
+    public List<BookDetail> getBooksBySearch(String search) {
+        return managerDao.getBooksBySearch(search);
+    }
+
+    @Override
+    public void deleteBook(Integer id) {
+        managerDao.deleteBook(id);
+    }
+
+    @Override
+    public List<OrderUser> getAllOrders() {
+        return managerDao.getAllOrders();
     }
 }

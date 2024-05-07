@@ -1,6 +1,7 @@
 package com.example.ebookbackend.service.impl;
 
 import com.example.ebookbackend.dao.BookDao;
+import com.example.ebookbackend.dao.UserDao;
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.Cart;
 import com.example.ebookbackend.domain.OrderBook;
@@ -19,6 +20,9 @@ public class BookDetailServiceImpl implements BookDetailService {
     @Autowired
     private final BookDao bookDetailDao;
 
+    @Autowired
+    private final UserDao userDao;
+
 //    @Override
 //    public void addBook(BookDetail bd){
 //        bookDetailRepo.save(bd);
@@ -36,6 +40,14 @@ public class BookDetailServiceImpl implements BookDetailService {
 
     @Override
     public Integer insertOrder(OrderReceiver orderReceiver) {
+        for(OrderBook order : orderReceiver.getOrderBooks()) {
+            if(order.getNumber() > bookDetailDao.getStockById(order.getBook_id())) {
+                return -1;
+            }
+        }
+        if(orderReceiver.getMoney() > userDao.getBalanceById(orderReceiver.getUid())) {
+            return -2;
+        }
         return bookDetailDao.insertOrder(orderReceiver);
     }
 

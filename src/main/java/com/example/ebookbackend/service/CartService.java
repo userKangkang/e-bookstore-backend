@@ -11,4 +11,8 @@ public interface CartService {
     public void removeCart(int cid);
 
     public void removeAllCart(int uid);
+
+    public void updateSingleCartNumber(Cart cart);
+
+    public void updateAllCartNumber(List<Cart> carts);
 }

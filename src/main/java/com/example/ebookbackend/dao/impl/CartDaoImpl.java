@@ -33,4 +33,16 @@ public class CartDaoImpl implements CartDao {
         cartRepository.deleteAllByUid(uid);
     }
 
+    @Override
+    public void updateSingleCartNumber(Cart cart) {
+        cartRepository.updateNumberById(cart.getNumber(), cart.getId());
+    }
+
+    @Override
+    public void updateAllCartNumber(List<Cart> carts) {
+        for(Cart c : carts) {
+            cartRepository.updateNumberById(c.getNumber(), c.getId());
+        }
+    }
+
 }

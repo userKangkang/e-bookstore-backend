@@ -2,8 +2,10 @@ package com.example.ebookbackend.dao.impl;
 
 import com.example.ebookbackend.dao.ManagerDao;
 import com.example.ebookbackend.domain.BookDetail;
+import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
 import com.example.ebookbackend.repo.BookDetailRepository;
+import com.example.ebookbackend.repo.OrderUserRepository;
 import com.example.ebookbackend.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,9 @@ public class ManagerDaoImpl implements ManagerDao {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    OrderUserRepository orderUserRepository;
+
     @Override
     public List<BookDetail> getAllBooks() {
         return bookDetailRepository.findAll();
@@ -31,7 +36,7 @@ public class ManagerDaoImpl implements ManagerDao {
 
     @Override
     public Integer updateBook(BookDetail book) {
-        return bookDetailRepository.updateBookDetailPart(
+        return bookDetailRepository.updateBookDetailPart(book.getName(), book.getAuthor(),
                 book.getDetail(), book.getPath(), book.getPrice(), book.getStock(), book.getId()
         );
     }
@@ -44,5 +49,25 @@ public class ManagerDaoImpl implements ManagerDao {
     @Override
     public void disableUser(Integer id) {
         userRepository.disableUser(id);
+    }
+
+    @Override
+    public void enableUser(Integer id) {
+        userRepository.enableUser(id);
+    }
+
+    @Override
+    public List<BookDetail> getBooksBySearch(String search) {
+        return bookDetailRepository.getBooksBySearch(search);
+    }
+
+    @Override
+    public void deleteBook(Integer id) {
+        bookDetailRepository.deleteBookDetailById(id);
+    }
+
+    @Override
+    public List<OrderUser> getAllOrders(){
+        return orderUserRepository.findAll();
     }
 }

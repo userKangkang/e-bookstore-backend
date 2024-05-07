@@ -34,4 +34,16 @@ public class CartController {
         cartService.removeAllCart(uid);
         return Result.success("清空成功");
     }
+
+    @RequestMapping("/cart/update/single/number")
+    public Result updateSingleCartNumber(@RequestBody Cart cart) {
+        cartService.updateSingleCartNumber(cart);
+        return Result.success("修改成功");
+    }
+
+    @RequestMapping("/cart/update/all/number")
+    public Result updateAllCartNumber(@RequestBody List<Cart> carts) {
+        cartService.updateAllCartNumber(carts);
+        return Result.success("修改成功");
+    }
 }

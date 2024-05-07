@@ -23,8 +23,15 @@ public class BookDetailController {
 
     @RequestMapping("/order/add")
     public Result insertOrder(@RequestBody OrderReceiver orderReceiver) {
-        System.out.println(orderReceiver);
-        return Result.success(bdService.insertOrder(orderReceiver));
+        Integer res = bdService.insertOrder(orderReceiver);
+        if(res == -1) {
+            return Result.failure("数量不足",false);
+        } else if(res == -2) {
+            return Result.failure("余额不足", false);
+        }
+        else {
+            return Result.success(res);
+        }
     }
 
     @RequestMapping("/cart/add")

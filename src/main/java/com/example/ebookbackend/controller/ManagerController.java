@@ -37,8 +37,30 @@ public class ManagerController {
     }
 
     @RequestMapping("/manager/user/disable/{id}")
-    public Result disableUser(@PathVariable("id") Integer id) {
+    public Result disableUser(@PathVariable(name = "id") Integer id) {
         managerService.disableUser(id);
         return Result.success("封禁成功");
+    }
+
+    @RequestMapping("/manager/user/enable/{id}")
+    public Result enableUser(@PathVariable(name = "id") Integer id) {
+        managerService.enableUser(id);
+        return Result.success("解禁成功");
+    }
+
+    @RequestMapping("/manager/book/search/{search}")
+    public Result getBooksBySearch(@PathVariable(name = "search") String search) {
+        return Result.success(managerService.getBooksBySearch(search));
+    }
+
+    @RequestMapping("/manager/book/delete/{id}")
+    public Result deleteBookById(@PathVariable(name = "id") Integer id) {
+        managerService.deleteBook(id);
+        return Result.success("删除成功");
+    }
+
+    @RequestMapping("/manager/order/all")
+    public Result getAllOrders() {
+        return Result.success(managerService.getAllOrders());
     }
 }

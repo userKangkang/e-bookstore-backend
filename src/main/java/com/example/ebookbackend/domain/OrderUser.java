@@ -35,7 +35,7 @@ public class OrderUser {
     @Column(name = "time")
     private Date time;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"id", "password", "email", "balance", "avatar", "hobby", "signature", "state", "identity"})
     @ManyToOne
     @JoinColumn(name = "uid", insertable = false, updatable = false)
     private User user;
@@ -44,16 +44,5 @@ public class OrderUser {
             (mappedBy = "orderUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderBook> orderBooks;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderUser that = (OrderUser) o;
-        return orderId == that.orderId && uid == that.uid;
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(orderId, uid);
-    }
 }

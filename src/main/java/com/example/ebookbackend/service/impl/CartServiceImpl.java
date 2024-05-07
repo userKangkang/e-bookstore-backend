@@ -28,4 +28,14 @@ public class CartServiceImpl implements CartService {
     public void removeAllCart(int uid) {
         cartDao.removeAllCart(uid);
     }
+
+    @Override
+    public void updateSingleCartNumber(Cart cart) {
+        cartDao.updateSingleCartNumber(cart);
+    }
+
+    @Override
+    public void updateAllCartNumber(List<Cart> carts) {
+        cartDao.updateAllCartNumber(carts);
+    }
 }
