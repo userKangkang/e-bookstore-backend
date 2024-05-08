@@ -1,10 +1,14 @@
 package com.example.ebookbackend.dao.impl;
 
+import com.example.ebookbackend.DTO.RankBookNumberDTOInterface;
+import com.example.ebookbackend.DTO.RankUserConsumeDTOInterface;
+import com.example.ebookbackend.DTO.StatisticsUserDTOInterface;
 import com.example.ebookbackend.dao.ManagerDao;
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
 import com.example.ebookbackend.repo.BookDetailRepository;
+import com.example.ebookbackend.repo.OrderBookRepository;
 import com.example.ebookbackend.repo.OrderUserRepository;
 import com.example.ebookbackend.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,9 @@ public class ManagerDaoImpl implements ManagerDao {
 
     @Autowired
     OrderUserRepository orderUserRepository;
+
+    @Autowired
+    OrderBookRepository orderBookRepository;
 
     @Override
     public List<BookDetail> getAllBooks() {
@@ -82,4 +89,16 @@ public class ManagerDaoImpl implements ManagerDao {
     public List<OrderUser> getOrderByBookName(String name) {
         return orderUserRepository.getOrderUserByBookName(name);
     }
+
+    @Override
+    public List<RankBookNumberDTOInterface> getRankBookInfo(String startTime, String endTime) {
+        return orderBookRepository.getRankBookInfo(startTime, endTime);
+    }
+
+    @Override
+    public List<RankUserConsumeDTOInterface> getRankUserInfo(String startTime, String endTime) {
+        return orderBookRepository.getRankUserInfo(startTime, endTime);
+    }
+
+
 }

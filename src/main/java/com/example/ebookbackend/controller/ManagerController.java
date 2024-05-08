@@ -83,4 +83,10 @@ public class ManagerController {
                               @PathVariable(name = "endTime") String endTime) {
         return Result.success(managerService.getBookRank(startTime, endTime));
     }
+
+    @RequestMapping("/manager/rank/user/{startTime}/{endTime}")
+    public Result getUserRank(@PathVariable(name = "startTime") String startTime,
+                              @PathVariable(name = "endTime") String endTime) {
+        return Result.success(managerService.getUserRank(startTime, endTime));
+    }
 }

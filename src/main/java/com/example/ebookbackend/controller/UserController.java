@@ -4,6 +4,7 @@ package com.example.ebookbackend.controller;
 import com.example.ebookbackend.domain.Result;
 import com.example.ebookbackend.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.ebookbackend.service.UserService;
@@ -41,6 +42,11 @@ public class UserController {
     @RequestMapping("/user/profile")
     public Result updateProfile(@RequestBody User user) {
         return userService.updateProfile(user);
+    }
+
+    @RequestMapping("/user/stat/{uid}/{startTime}/{endTime}")
+    public Result getUserStat(@PathVariable Integer uid, @PathVariable String startTime, @PathVariable String endTime) {
+        return Result.success(userService.getUserStat(uid, startTime, endTime));
     }
 
     @Autowired

@@ -8,6 +8,7 @@ import com.aliyun.oss.common.auth.CredentialsProviderFactory;
 import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
+import com.example.ebookbackend.DTO.StatisticsUserDTOInterface;
 import com.example.ebookbackend.dao.UserDao;
 import com.example.ebookbackend.domain.Result;
 import com.example.ebookbackend.domain.User;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -66,6 +68,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
+    }
+
+    @Override
+    public List<StatisticsUserDTOInterface> getUserStat(Integer uid, String startTime, String endTime) {
+        return userDao.getUserStatInfo(uid, startTime, endTime);
     }
 
     @Override

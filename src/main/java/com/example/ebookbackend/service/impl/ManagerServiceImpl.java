@@ -1,13 +1,14 @@
 package com.example.ebookbackend.service.impl;
 
-import com.example.ebookbackend.DTO.RankBookNumberDTO;
+import com.example.ebookbackend.DTO.RankBookNumberDTOInterface;
+import com.example.ebookbackend.DTO.RankUserConsumeDTOInterface;
+import com.example.ebookbackend.DTO.StatisticsUserDTOInterface;
 import com.example.ebookbackend.dao.ManagerDao;
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
 import com.example.ebookbackend.service.ManagerService;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,11 +79,14 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<RankBookNumberDTO> getBookRank(String startTime, String endTime) {
-        Query query = entityManager.createNamedQuery("rankBookQ", RankBookNumberDTO.class);
-        query.setParameter("startTime", startTime);
-        query.setParameter("endTime", endTime);
-        List<RankBookNumberDTO> res = query.getResultList();
-        return res;
+    public List<RankBookNumberDTOInterface> getBookRank(String startTime, String endTime) {
+        return managerDao.getRankBookInfo(startTime, endTime);
     }
+
+    @Override
+    public List<RankUserConsumeDTOInterface> getUserRank(String startTime, String endTime) {
+        return managerDao.getRankUserInfo(startTime, endTime);
+    }
+
+
 }

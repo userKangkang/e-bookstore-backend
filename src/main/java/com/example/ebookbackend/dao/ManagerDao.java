@@ -1,5 +1,8 @@
 package com.example.ebookbackend.dao;
 
+import com.example.ebookbackend.DTO.RankBookNumberDTOInterface;
+import com.example.ebookbackend.DTO.RankUserConsumeDTOInterface;
+import com.example.ebookbackend.DTO.StatisticsUserDTOInterface;
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
@@ -28,4 +31,10 @@ public interface ManagerDao {
     List<OrderUser> getOrdersByTime(String startTime, String endTime);
 
     List<OrderUser> getOrderByBookName(String name);
+
+    List<RankBookNumberDTOInterface> getRankBookInfo(String startTime, String endTime);
+
+    List<RankUserConsumeDTOInterface> getRankUserInfo(String startTime, String endTime);
+
+
 }
