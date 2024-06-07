@@ -7,10 +7,8 @@ import com.example.ebookbackend.dao.ManagerDao;
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.OrderUser;
 import com.example.ebookbackend.domain.User;
-import com.example.ebookbackend.repo.BookDetailRepository;
-import com.example.ebookbackend.repo.OrderBookRepository;
-import com.example.ebookbackend.repo.OrderUserRepository;
-import com.example.ebookbackend.repo.UserRepository;
+import com.example.ebookbackend.domain.UserAuth;
+import com.example.ebookbackend.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +29,10 @@ public class ManagerDaoImpl implements ManagerDao {
     @Autowired
     OrderBookRepository orderBookRepository;
 
+    @Autowired
+    UserAuthRepository userAuthRepository;
+
+
     @Override
     public List<BookDetail> getAllBooks() {
         return bookDetailRepository.findAll();
@@ -50,17 +52,22 @@ public class ManagerDaoImpl implements ManagerDao {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            user.setState(user.getUserAuth().getValid());
+            user.setUsername(user.getUserAuth().getUsername());
+        }
+        return users;
     }
 
     @Override
     public void disableUser(Integer id) {
-        userRepository.disableUser(id);
+        userAuthRepository.disableUser(id);
     }
 
     @Override
     public void enableUser(Integer id) {
-        userRepository.enableUser(id);
+        userAuthRepository.enableUser(id);
     }
 
     @Override

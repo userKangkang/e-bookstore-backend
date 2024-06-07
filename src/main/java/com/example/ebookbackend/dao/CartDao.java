@@ -1,5 +1,6 @@
 package com.example.ebookbackend.dao;
 
+import com.example.ebookbackend.DTO.OrderReceiverDTO;
 import com.example.ebookbackend.domain.Cart;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface CartDao {
     void updateSingleCartNumber(Cart cart);
 
     void updateAllCartNumber(List<Cart> carts);
+
+    int buyBooksByCart(OrderReceiverDTO orderReceiverDTO);
 }

@@ -8,6 +8,7 @@ import com.example.ebookbackend.repo.OrderBookRepository;
 import com.example.ebookbackend.repo.OrderUserRepository;
 import com.example.ebookbackend.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -26,9 +27,12 @@ public class OrderDaoImpl implements OrderDao {
     OrderUserRepository orderUserRepository;
 
     @Override
-    public List<OrderUser> getAllOrderByUserId(int uid) {
+    public List<OrderUser> getAllOrderByUserId(int uid, Pageable pageable) {
         User user = userRepository.getById(uid);
-        return user.getOrderUser();
+        int number = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        int max = Math.min(user.getOrderUser().size(), (number + 1) * size);
+        return user.getOrderUser().subList(number * size, max);
     }
 
     @Override
@@ -40,5 +44,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<OrderUser> getUserOrdersByBookName(String name, Integer uid) {
         return orderUserRepository.getUserOrdersByBookName(name, uid);
+    }
+
+    @Override
+    public Integer getAllOrderNumberByUid(int uid) {
+        return userRepository.getById(uid).getOrderUser().size();
     }
 }

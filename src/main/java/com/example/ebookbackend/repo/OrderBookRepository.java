@@ -20,8 +20,8 @@ public interface OrderBookRepository extends JpaRepository<OrderBook, Integer> {
     List<RankBookNumberDTOInterface> getRankBookInfo(@Param("startTime") String startTime, @Param("endTime") String endTime);
 
     @Query(nativeQuery = true, value = "select (rank() over (order by sum(ot.number) desc)) as numberRank, (rank() over (order by sum(ot.prices) desc)) as moneyRank, u.id as uid, " +
-            "u.username as username, sum(ot.number) as bookNumber, sum(ot.prices) as money from order_user_table ou join user_table u on ou.uid = u.id" +
-            " join order_table ot on ot.oid = ou.order_id where ou.time between :startTime and :endTime " +
+            "ua.username as username, sum(ot.number) as bookNumber, sum(ot.prices) as money from order_user_table ou join user_table u on ou.uid = u.id" +
+            " join order_table ot on ot.oid = ou.order_id join userauth ua on ua.id = u.id where ou.time between :startTime and :endTime " +
             "group by u.id")
     List<RankUserConsumeDTOInterface> getRankUserInfo(@Param("startTime") String startTime, @Param("endTime") String endTime);
 

@@ -1,19 +1,19 @@
-package com.example.ebookbackend.receiver;
+package com.example.ebookbackend.DTO;
 
 
 import com.example.ebookbackend.domain.OrderBook;
-import com.example.ebookbackend.domain.OrderUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderReceiver {
+public class OrderReceiverDTO {
     private int uid;
 
     private String address;

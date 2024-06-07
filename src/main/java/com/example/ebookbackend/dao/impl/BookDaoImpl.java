@@ -5,10 +5,13 @@ import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.Cart;
 import com.example.ebookbackend.domain.OrderBook;
 import com.example.ebookbackend.domain.OrderUser;
-import com.example.ebookbackend.receiver.OrderReceiver;
+import com.example.ebookbackend.DTO.OrderReceiverDTO;
 import com.example.ebookbackend.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository
@@ -34,19 +37,19 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Integer insertOrder(OrderReceiver orderReceiver) {
-        for(OrderBook order : orderReceiver.getOrderBooks()) {
+    public Integer insertOrder(OrderReceiverDTO orderReceiverDTO) {
+        for(OrderBook order : orderReceiverDTO.getOrderBooks()) {
             bookDetailRepository.reduceBookStock(order.getNumber(), order.getBook_id());
         }
         OrderUser orderUser = new OrderUser();
-        orderUser.setUid(orderReceiver.getUid());
-        orderUser.setTime(orderReceiver.getTime());
-        orderUser.setAddress(orderReceiver.getAddress());
-        orderUser.setMoney(orderReceiver.getMoney());
+        orderUser.setUid(orderReceiverDTO.getUid());
+        orderUser.setTime(orderReceiverDTO.getTime());
+        orderUser.setAddress(orderReceiverDTO.getAddress());
+        orderUser.setMoney(orderReceiverDTO.getMoney());
         userRepository.reduceBalance(orderUser.getMoney(), orderUser.getUid());
         int oid = orderUserRepository.save(orderUser).getOrderId();
-        orderReceiver.setOrderBooksOid(oid);
-        orderBookRepository.saveAll(orderReceiver.getOrderBooks());
+        orderReceiverDTO.setOrderBooksOid(oid);
+        orderBookRepository.saveAll(orderReceiverDTO.getOrderBooks());
         return oid;
     }
 
@@ -61,5 +64,11 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Integer getStockById(Integer id) {
         return bookDetailRepository.findStockById(id);
+    }
+
+    @Override
+    public List<BookDetail> getBooksByPagination(Pageable pageable)
+    {
+        return bookDetailRepository.findAll(pageable).getContent();
     }
 }

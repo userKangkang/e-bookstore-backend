@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -15,7 +16,7 @@ public interface BookDetailRepository extends JpaRepository<BookDetail, Integer>
     @Transactional
     @Query(value = "update BookDetail b set b.name = :name, b.author = :author, b.detail = :detail, b.path = :path, b.price = :price, b.stock = :stock where b.id = :id")
     int updateBookDetailPart(@Param("name") String name, @Param("author") String author, @Param("detail") String detail,
-                             @Param("path") String path, @Param("price") Integer price,
+                             @Param("path") String path, @Param("price") int price,
                              @Param("stock") Integer stock, @Param("id") Integer id);
 
     @Query(nativeQuery = true, value = "select * from book_table where name like concat('%', :search, '%') ")

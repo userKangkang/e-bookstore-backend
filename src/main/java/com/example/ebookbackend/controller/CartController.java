@@ -1,8 +1,11 @@
 package com.example.ebookbackend.controller;
 
+import com.example.ebookbackend.DTO.OrderReceiverDTO;
 import com.example.ebookbackend.domain.Cart;
 import com.example.ebookbackend.domain.Result;
 import com.example.ebookbackend.service.CartService;
+import com.example.ebookbackend.utils.SessionUtil;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +21,10 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @RequestMapping("/user/cart/{uid}")
-    public Result getAllCartsByUid(@PathVariable(name = "uid") int uid) {
+    @RequestMapping("/user/cart")
+    public Result getAllCartsByUid() {
+        HttpSession session = SessionUtil.getSession();
+        int uid = (int)session.getAttribute("uid");
         return Result.success(cartService.getAllCartsByUid(uid));
     }
 
@@ -29,8 +34,23 @@ public class CartController {
         return Result.success(1);
     }
 
-    @RequestMapping("/cart/remove/all/{uid}")
-    public Result removeAllCart(@PathVariable(name = "uid") int uid) {
+    @RequestMapping("/cart/buy/all")
+    public Result buyBooksByCart(@RequestBody OrderReceiverDTO orderReceiverDTO) {
+        int res = cartService.buyBooksByCart(orderReceiverDTO);
+        if(res == -1) {
+            return Result.failure("数量不足",false);
+        } else if(res == -2) {
+            return Result.failure("余额不足", false);
+        }
+        else {
+            return Result.success(res);
+        }
+    }
+
+    @RequestMapping("/cart/remove/all")
+    public Result removeAllCart() {
+        HttpSession session = SessionUtil.getSession();
+        int uid = (int)session.getAttribute("uid");
         cartService.removeAllCart(uid);
         return Result.success("清空成功");
     }

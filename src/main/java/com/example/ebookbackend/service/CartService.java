@@ -1,5 +1,6 @@
 package com.example.ebookbackend.service;
 
+import com.example.ebookbackend.DTO.OrderReceiverDTO;
 import com.example.ebookbackend.domain.Cart;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface CartService {
     public void updateSingleCartNumber(Cart cart);
 
     public void updateAllCartNumber(List<Cart> carts);
+
+    public int buyBooksByCart(OrderReceiverDTO orderReceiverDTO);
 }

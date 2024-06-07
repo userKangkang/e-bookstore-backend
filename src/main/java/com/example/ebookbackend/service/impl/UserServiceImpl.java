@@ -9,17 +9,23 @@ import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.example.ebookbackend.DTO.StatisticsUserDTOInterface;
+import com.example.ebookbackend.DTO.UserSignupDTO;
 import com.example.ebookbackend.dao.UserDao;
 import com.example.ebookbackend.domain.Result;
 import com.example.ebookbackend.domain.User;
+import com.example.ebookbackend.domain.UserAuth;
 import com.example.ebookbackend.service.UserService;
+import com.example.ebookbackend.utils.JwtUtil;
+import com.example.ebookbackend.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -27,22 +33,24 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     @Override
     public Result verifyByUsername(String username, String password) {
-        User user = getUserByUsername(username);
-        String output = user.getPassword();
-        int state = user.getState();
-        if(output == null) {
-            return Result.failure("no such user", false);
-        } else if(!password.equals(output)) {
-            return Result.failure("password error", false);
-        } else if(state == 0) {
-            return Result.failure("account banned", false);
+        UserAuth userAuth = userDao.getAuthByUsername(username, password);
+        if(userAuth == null) {
+            return Result.failure("用户名或密码错误", false);
+        }
+        int state = userAuth.getValid();
+        if(state == 0) {
+            return Result.failure("用户被封禁", false);
         } else {
-            return Result.success(true);
+            Map<String, Object> claims = new HashMap<>();
+            SessionUtil.setSession(userAuth);
+            claims.put("username", userAuth.getUsername());
+            String jwt = JwtUtil.getJwt(claims);
+            return Result.success(jwt);
         }
     }
 
     @Override
-    public Result insertNewUser(User user) {
+    public Result insertNewUser(UserSignupDTO user) {
         User old_user = userDao.getUserByUsername(user.getUsername());
         if(old_user != null) {
             return Result.failure("username already exists!", false);

@@ -2,8 +2,9 @@ package com.example.ebookbackend.service;
 
 import com.example.ebookbackend.domain.BookDetail;
 import com.example.ebookbackend.domain.Cart;
-import com.example.ebookbackend.domain.OrderBook;
-import com.example.ebookbackend.receiver.OrderReceiver;
+import com.example.ebookbackend.DTO.OrderReceiverDTO;
+
+import java.util.List;
 
 
 public interface BookDetailService {
@@ -13,8 +14,10 @@ public interface BookDetailService {
 
     BookDetail getBook(Integer id);
 
-    Integer insertOrder(OrderReceiver orderReceiver);
+    Integer insertOrder(OrderReceiverDTO orderReceiverDTO);
 
     Cart insertCart(Cart cart, Integer uid);
+
+    List<BookDetail> getBooksByPagination(Integer page, Integer size);
 
 }

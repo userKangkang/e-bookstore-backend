@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -19,9 +20,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "username")
+    @Transient
     private String username;
-    @Column(name = "password")
+    @Transient
     private String password;
     @Column(name = "email")
     private String email;
@@ -33,7 +34,8 @@ public class User {
     private String hobby;
     @Column(name = "signature")
     private String signature;
-    @Column(name = "state")
+
+    @Transient
     private int state;
     @Column(name = "identity")
     private int identity;
@@ -44,4 +46,9 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cart> carts;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private UserAuth userAuth;
 }
